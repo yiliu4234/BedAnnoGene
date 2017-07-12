@@ -4,5 +4,5 @@ Given a bed file with chr and region,annotate the overlapping gene </br>
 * geffile: gtf file downloaded from GENCODE  </br>
 * outputfile: file to be writen out  </br>
 * needed package: data.table 1.10.4 </br>
-* [usage]: </br>
+*[usage]: </br>
 ```BedAnnoGene.R bedfile gtffile outputfile ```</br>
