@@ -6,7 +6,7 @@ arg <- commandArgs(T)
 if (length(arg) != 3) {
     message("[usage]: BedAnnoGene.R bedfile gtffile outputfile")
     message("    bedfile format: chr start end information(Arbitrary but can not be lacked)")
-    message("    geffile: gtf file downloaded from GENCODE")
+    message("    GTFfile: gtf file downloaded from GENCODE")
     message("    outputfile: file to be writen out")
     message("    needed package: data.table 1.10.4")
     stop("Please check your arguments!")
@@ -36,11 +36,11 @@ for (ChrI in intersect(unique(bed$V1),unique(anno$Chr))){
   }
 }
 merge_dt <- rbindlist(lst)
-setnames(merge_dt,c("V2","V3"),c("Start","End"))
+setnames(merge_dt,c("V2","V3","V4"),c("Start","End","Name"))
 
 #if one region has more than one gene
 torm <- list()
-for (i in 1:(nrow(merge_dt)-1)){if(merge_dt[i,"V4"]==merge_dt[i+1,"V4"]){set(merge_dt,i+1L,ncol(merge_dt),paste(merge_dt[i,"Gene"],merge_dt[i+1,"Gene"],sep=";"));torm <- c(torm,list(i))}}
+for (i in 1:(nrow(merge_dt)-1)){if(merge_dt[i,"Name"]==merge_dt[i+1,"Name"]){set(merge_dt,i+1L,ncol(merge_dt),paste(merge_dt[i,"Gene"],merge_dt[i+1,"Gene"],sep=";"));torm <- c(torm,list(i))}}
 torm <- unlist(torm)
 merge_dt <- merge_dt[-torm,]
 
