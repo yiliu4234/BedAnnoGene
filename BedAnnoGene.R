@@ -15,7 +15,7 @@ if (length(arg) != 3) {
     annofile <- arg[2]
     outfile <- arg[3]
 
-#main 
+#read file 
 anno <- fread(annofile,sep="\t",header=F,skip=5)
 bed <- fread(bedfile,sep="\t",header=F)
 setnames(anno,c("V1","V2","V3","V4","V5","V9"),c("Chr","Gene","Type","Start","End","Info"))
@@ -40,7 +40,7 @@ setnames(merge_dt,c("V2","V3"),c("Start","End"))
 
 #if one region has more than one gene
 torm <- list()
-for (i in 1:(nrow(merge_dt)-1)){if(merge_dt[i,"V4"]==merge_dt[i+1,"V4"]){set(merge_dt,i,ncol(merge_dt),paste(merge_dt[i,"Gene"],merge_dt[i+1,"Gene"],sep=";"));torm <- c(torm,list(i+1))}}
+for (i in 1:(nrow(merge_dt)-1)){if(merge_dt[i,"V4"]==merge_dt[i+1,"V4"]){set(merge_dt,i+1L,ncol(merge_dt),paste(merge_dt[i,"Gene"],merge_dt[i+1,"Gene"],sep=";"));torm <- c(torm,list(i))}}
 torm <- unlist(torm)
 merge_dt <- merge_dt[-torm,]
 
