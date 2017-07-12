@@ -10,10 +10,11 @@ if (length(arg) != 3) {
     message("    outputfile: file to be writen out")
     message("    needed package: data.table 1.10.4")
     stop("Please check your arguments!")
-}else{
-    bedfile <- arg[1]
-    annofile <- arg[2]
-    outfile <- arg[3]
+}
+    
+bedfile <- arg[1]
+annofile <- arg[2]
+outfile <- arg[3]
 
 #read file 
 anno <- fread(annofile,sep="\t",header=F)
@@ -45,4 +46,4 @@ torm <- unlist(torm)
 merge_dt <- merge_dt[-torm,]
 
 fwrite(merge_dt,file=outfile)
-}
+
