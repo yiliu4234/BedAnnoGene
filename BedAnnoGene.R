@@ -16,7 +16,7 @@ if (length(arg) != 3) {
     outfile <- arg[3]
 
 #read file 
-anno <- fread(annofile,sep="\t",header=F,skip=5)
+anno <- fread(annofile,sep="\t",header=F)
 bed <- fread(bedfile,sep="\t",header=F)
 setnames(anno,c("V1","V2","V3","V4","V5","V9"),c("Chr","Gene","Type","Start","End","Info"))
 anno <- anno[Type=="gene",.(Chr,Start,End,Gene=sapply(strsplit(tstrsplit(Info,";")[3][[1]],"\""),function(x)x[2]))]
