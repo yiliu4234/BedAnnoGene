@@ -11,7 +11,7 @@ if (length(arg) != 3) {
     message("    needed package: data.table 1.10.4")
     stop("Please check your arguments!")
 }
-    
+
 bedfile <- arg[1]
 annofile <- arg[2]
 outfile <- arg[3]
@@ -23,7 +23,6 @@ setnames(anno,c("V1","V2","V3","V4","V5","V9"),c("Chr","Gene","Type","Start","En
 anno <- anno[Type=="gene",.(Chr,Start,End,Gene=sapply(strsplit(tstrsplit(Info,";")[3][[1]],"\""),function(x)x[2]))]
 setkey(anno,Chr,Start,End)
 setkey(bed,V1,V2,V3)
-
 #find overlaps by Chr
 lst <- list()
 for (ChrI in intersect(unique(bed$V1),unique(anno$Chr))){
@@ -41,7 +40,7 @@ setnames(merge_dt,c("V2","V3","V4"),c("Start","End","Name"))
 
 #if one region has more than one gene
 torm <- list()
-for (i in 1:(nrow(merge_dt)-1)){if(merge_dt[i,"Name"]==merge_dt[i+1,"Name"]){set(merge_dt,i+1L,ncol(merge_dt),paste(merge_dt[i,"Gene"],merge_dt[i+1,"Gene"],sep=";"));torm <- c(torm,list(i))}}
+for (i in 1:(nrow(merge_dt)-1)){if(merge_dt[i,"Start"]==merge_dt[i+1,"Start"] & merge_dt[i,"End"]==merge_dt[i+1,"End"]){set(merge_dt,i+1L,ncol(merge_dt),paste(merge_dt[i,"Gene"],merge_dt[i+1,"Gene"],sep=";"));torm <- c(torm,list(i))}}
 torm <- unlist(torm)
 merge_dt <- merge_dt[-torm,]
 
